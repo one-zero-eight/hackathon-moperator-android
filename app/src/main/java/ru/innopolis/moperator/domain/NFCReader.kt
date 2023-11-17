@@ -12,6 +12,7 @@ import ru.innopolis.moperator.MoperatorApplication
 
 fun ByteArray.toHexString() = joinToString("") { "%02x".format(it) }
 
+@Suppress("unused")
 class MoperatorNFCTag(
     private val id: String?,
     private val atqa: String?,
