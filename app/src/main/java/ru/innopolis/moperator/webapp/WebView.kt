@@ -21,6 +21,10 @@ fun createWebView(
             databaseEnabled = true
             cacheMode = android.webkit.WebSettings.LOAD_CACHE_ELSE_NETWORK
         }
+        layoutParams = android.view.ViewGroup.LayoutParams(
+            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            android.view.ViewGroup.LayoutParams.MATCH_PARENT
+        )
 
         webViewClient = LocalContentWebViewClient(
             WebViewAssetLoader.Builder()
