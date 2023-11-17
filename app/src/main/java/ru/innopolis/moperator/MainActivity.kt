@@ -5,6 +5,7 @@ import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import ru.innopolis.moperator.webapp.WebViewContent
@@ -67,6 +68,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val webView = (this.applicationContext as MoperatorApplication).webView
         requestPermissions()
+
+        onBackPressedDispatcher.addCallback {
+            // Check whether there's history.
+            if (webView.canGoBack()) {
+                webView.goBack()
+            } else {
+                // If there is no history, close
+                finish()
+            }
+        }
 
         setContent {
             WebViewContent(webView)
