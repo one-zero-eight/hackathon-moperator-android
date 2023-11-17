@@ -1,5 +1,6 @@
 package ru.innopolis.moperator.domain
 
+import android.content.Context
 import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
@@ -7,6 +8,7 @@ import android.nfc.tech.MifareClassic
 import android.nfc.tech.NfcA
 import android.os.Build
 import android.util.Log
+import ru.innopolis.moperator.MoperatorApplication
 
 fun ByteArray.toHexString() = joinToString("") { "%02x".format(it) }
 
@@ -22,8 +24,10 @@ class MoperatorNFCTag(
         var manufacturerId: String? = null
     ) {
         fun id(id: String) = apply { this.id = id }
-        fun atqa(atqa: String) = apply { this.atqa = atqa
+        fun atqa(atqa: String) = apply {
+            this.atqa = atqa
         }
+
         fun manufacturerId(manufacturerId: String) = apply { this.manufacturerId = manufacturerId }
         fun build() = MoperatorNFCTag(id, atqa, manufacturerId)
     }
@@ -33,9 +37,9 @@ class MoperatorNFCTag(
     }
 }
 
-class NFCReader {
-    private val nfcHistory = mutableListOf<MoperatorNFCTag>()
-
+class NFCReader(
+    private val mContext: Context,
+) {
     fun onIntent(intent: Intent) {
         Log.d("NFC", "NFC intent received")
 
@@ -99,8 +103,14 @@ class NFCReader {
 
             readBlocksWithDefaultKey(mifareClassic, builder)
         }
+        val nfcTag = builder.build()
+        val manufacturerId = nfcTag.getManufacturerId()
 
-        nfcHistory.add(builder.build())
+        if (manufacturerId != null) {
+            Log.d("NFC", "NFC tag manufacturerId: ${nfcTag.getManufacturerId()}")
+            (mContext.applicationContext as MoperatorApplication)
+                .androidToWeb.onTagScanned(manufacturerId)
+        }
     }
 
     private fun readBlocksWithDefaultKey(
@@ -116,7 +126,7 @@ class NFCReader {
         }
         Log.d("NFC", "NFC tag MifareClassic: sector 0 authenticated with default key")
         // Read first block of first sector
-        val blockIndex = mifareClassic.getBlockCountInSector(0)
+        val blockIndex = mifareClassic.sectorToBlock(0)
         val block = mifareClassic.readBlock(blockIndex)
         // if empty block, skip it
         if (block.all { it == 0.toByte() }) {

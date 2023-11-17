@@ -21,7 +21,7 @@ class MoperatorApplication : Application() {
         mWebToAndroidCommunication = WebToAndroidCommunication(this)
         mWebView = createWebView(this)
         mAndroidToWebCommunication = AndroidToWebCommunication(mWebView)
-        mNFCReader = NFCReader()
+        mNFCReader = NFCReader(this)
     }
 
     // Getters
