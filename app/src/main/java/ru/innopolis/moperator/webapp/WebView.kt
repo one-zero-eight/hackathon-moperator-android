@@ -19,7 +19,6 @@ fun createWebView(
             javaScriptEnabled = true
             domStorageEnabled = true
             databaseEnabled = true
-            cacheMode = android.webkit.WebSettings.LOAD_CACHE_ELSE_NETWORK
         }
         layoutParams = android.view.ViewGroup.LayoutParams(
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
