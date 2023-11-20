@@ -55,11 +55,16 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun requestPermissions() {
+        val permissions = arrayOf(
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+        )
+        // Check TIRAMISU
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            permissions.plus(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
         permissionRequester.launch(
-            arrayOf(
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            )
+            permissions
         )
     }
 

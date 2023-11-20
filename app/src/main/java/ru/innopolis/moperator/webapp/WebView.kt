@@ -19,7 +19,10 @@ fun createWebView(
             javaScriptEnabled = true
             domStorageEnabled = true
             databaseEnabled = true
+            builtInZoomControls = true
+            displayZoomControls = false
         }
+
         layoutParams = android.view.ViewGroup.LayoutParams(
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
             android.view.ViewGroup.LayoutParams.MATCH_PARENT

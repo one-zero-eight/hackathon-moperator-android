@@ -4,6 +4,7 @@ import android.app.Application
 import android.webkit.WebView
 import ru.innopolis.moperator.domain.LocationTracker
 import ru.innopolis.moperator.domain.NFCReader
+import ru.innopolis.moperator.domain.Notificator
 import ru.innopolis.moperator.webapp.AndroidToWebCommunication
 import ru.innopolis.moperator.webapp.WebToAndroidCommunication
 import ru.innopolis.moperator.webapp.createWebView
@@ -14,7 +15,7 @@ class MoperatorApplication : Application() {
     private lateinit var mWebView: WebView
     private lateinit var mLocationTracker: LocationTracker
     private lateinit var mNFCReader: NFCReader
-
+    private lateinit var mNotificator: Notificator
     override fun onCreate() {
         super.onCreate()
         mLocationTracker = LocationTracker(this)
@@ -22,6 +23,7 @@ class MoperatorApplication : Application() {
         mWebView = createWebView(this)
         mAndroidToWebCommunication = AndroidToWebCommunication(mWebView)
         mNFCReader = NFCReader(this)
+        mNotificator = Notificator(this)
     }
 
     // Getters
@@ -39,4 +41,7 @@ class MoperatorApplication : Application() {
 
     val nfcReader: NFCReader
         get() = mNFCReader
+
+    val notificator: Notificator
+        get() = mNotificator
 }

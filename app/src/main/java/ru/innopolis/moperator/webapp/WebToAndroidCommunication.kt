@@ -18,4 +18,9 @@ class WebToAndroidCommunication(
         return (mContext.applicationContext as MoperatorApplication).locationTracker
             .location.toString()
     }
+
+    @JavascriptInterface
+    fun setToken(token: String) {
+        (mContext.applicationContext as MoperatorApplication).notificator.setToken(token)
+    }
 }
